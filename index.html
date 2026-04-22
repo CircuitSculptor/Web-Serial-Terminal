@@ -65,52 +65,49 @@ Baud:
 </label>
 
 <br>
-    
-<div id="readouts">
-    <div class="readout">
-        <div class="label">Voltage</div>
-        <div id="voltageValue">12.34 V</div>
-    </div>
-
-    <div class="readout">
-        <div class="label">Current</div>
-        <div id="currentValue">1.23 A</div>
-    </div>
-</div>
-
-<br>
 
 <div id="channels">
 
     <div class="channel">
         <div class="channel-title">CHANNEL 1</div>
 
-        <div class="metric">
-            <span class="label">V</span>
-            <span class="value" id="ch1_voltage">12</span>
-        </div>
+        <div class="readouts">
+            <div class="readout">
+                <div class="label">Voltage</div>
+                <div id="ch1_voltage">12.340 V</div>
+            </div>
 
-        <div class="metric">
-            <span class="label">I</span>
-            <span class="value" id="ch1_current">500</span>
+            <div class="readout">
+                <div class="label">Current</div>
+                <div id="ch1_current">0.500 A</div>
+            </div>
         </div>
     </div>
 
     <div class="channel">
         <div class="channel-title">CHANNEL 2</div>
 
-        <div class="metric">
-            <span class="label">V</span>
-            <span class="value" id="ch2_voltage">9</span>
-        </div>
+        <div class="readouts">
+            <div class="readout">
+                <div class="label">Voltage</div>
+                <div id="ch2_voltage">12.340 V</div>
+            </div>
 
-        <div class="metric">
-            <span class="label">I</span>
-            <span class="value" id="ch2_current">200</span>
+            <div class="readout">
+                <div class="label">Current</div>
+                <div id="ch2_current">0.500 A</div>
+            </div>
         </div>
     </div>
 
 </div>
+
+<br>
+
+<button onclick="setVoltage(1)">Set V</button>
+<button onclick="setCurrent(1)">Set I</button>
+<button onclick="toggleOutput(1, true)">ON</button>
+<button onclick="toggleOutput(1, false)">OFF</button>
     
 <br>
 

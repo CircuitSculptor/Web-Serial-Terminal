@@ -16,6 +16,7 @@ async function connectSerial() {
         writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
         writer = textEncoder.writable.getWriter();
         await listenToPort();
+        startPolling();
     } catch (e){
         alert("Serial Connection Failed" + e);
     }
@@ -83,3 +84,85 @@ document.getElementById("baud").value = (localStorage.baud == undefined ? 9600 :
 document.getElementById("addLine").checked = (localStorage.addLine == "false" ? false : true);
 document.getElementById("carriageReturn").checked = (localStorage.carriageReturn == "false" ? false : true);
 document.getElementById("echoOn").checked = (localStorage.echoOn == "false" ? false : true);
+
+
+async function sendCommand(cmd) {
+    if (!writer) return;
+
+    // Always send with newline (PSUs usually expect it)
+    await writer.write(cmd + "\n");
+}
+
+function startPolling() {
+    setInterval(async () => {
+        if (!writer) return;
+
+        await sendCommand("V1O?");
+        await sendCommand("I1O?");
+        await sendCommand("V2O?");
+        await sendCommand("I2O?");
+    }, 1000); // every 1 second
+}
+
+async function appendToTerminal(newStuff) {
+    serialResultsDiv.innerHTML += newStuff;
+
+    // Keep terminal trimmed
+    if (serialResultsDiv.innerHTML.length > 3000) {
+        serialResultsDiv.innerHTML =
+            serialResultsDiv.innerHTML.slice(serialResultsDiv.innerHTML.length - 3000);
+    }
+
+    serialResultsDiv.scrollTop = serialResultsDiv.scrollHeight;
+
+    parsePSUData(newStuff); // 👈 ADD THIS
+}
+
+let lastCommand = "";
+
+async function sendCommand(cmd) {
+    if (!writer) return;
+    lastCommand = cmd;
+    await writer.write(cmd + "\n");
+}
+
+function parsePSUData(data) {
+    let value = data.trim();
+
+    if (!value) return;
+
+    if (lastCommand === "V1O?") {
+        document.getElementById("ch1_voltage").textContent = value + " V";
+    }
+    else if (lastCommand === "I1O?") {
+        document.getElementById("ch1_current").textContent = value + " A";
+    }
+    else if (lastCommand === "V2O?") {
+        document.getElementById("ch2_voltage").textContent = value + " V";
+    }
+    else if (lastCommand === "I2O?") {
+        document.getElementById("ch2_current").textContent = value + " A";
+    }
+}
+
+function setVoltage(ch) {
+    let value = prompt(`Set voltage for CH${ch}:`);
+    let num = parseFloat(value);
+
+    if (!isNaN(num)) {
+        sendCommand(`V${ch} ${num.toFixed(3)}`);
+    }
+}
+
+function setCurrent(ch) {
+    let value = prompt(`Set current for CH${ch}:`);
+    let num = parseFloat(value);
+
+    if (!isNaN(num)) {
+        sendCommand(`V${ch} ${num.toFixed(3)}`);
+    }
+}
+
+function toggleOutput(ch, state) {
+    sendCommand(`OP${ch} ${state ? 1 : 0}`);
+}

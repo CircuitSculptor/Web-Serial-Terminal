@@ -63,42 +63,56 @@ input[type=text] {
 
 
 
-/* Container for both channels */
 #channels {
     display: flex;
-    justify-content: space-between;
     margin-top: 15px;
     border: 2px solid rgb(60, 255, 1);
+}
+
+/* Each channel */
+.channel {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 15px;
 }
 
-/* Each side */
-.channel {
-    width: 48%;
+/* Divider */
+.channel:first-child {
+    border-right: 2px solid rgb(60, 255, 1);
 }
 
-/* Titles */
+/* Title */
 .channel-title {
-    text-align: center;
     font-size: 20px;
     margin-bottom: 15px;
 }
 
-/* Each row (V / I) */
-.metric {
+/* Stack Voltage/Current boxes */
+.readouts {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    margin: 10px 0;
+    gap: 15px;
 }
 
-/* Labels (V / I) */
-.metric .label {
-    font-size: 18px;
+/* Individual boxes */
+.readout {
+    border: 2px solid rgb(60, 255, 1);
+    padding: 10px 20px;
+    text-align: center;
+    min-width: 140px;
+}
+
+/* Label */
+.readout .label {
+    font-size: 14px;
+    opacity: 0.7;
 }
 
 /* Big values */
-.metric .value {
-    font-size: 36px;
+.readout div:last-child {
+    font-size: 32px;
     font-weight: bold;
 }
