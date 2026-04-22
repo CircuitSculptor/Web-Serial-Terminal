@@ -5,6 +5,22 @@
     padding: 0px;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+#serialResults {
+    flex: 1;
+    min-height: 0; /* IMPORTANT for flexbox scrolling */
+}
+
 button,
 datalist {
     background-color: rgb(85, 85, 85);
