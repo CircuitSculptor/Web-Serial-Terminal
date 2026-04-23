@@ -85,13 +85,12 @@ document.getElementById("addLine").checked = (localStorage.addLine == "false" ? 
 document.getElementById("carriageReturn").checked = (localStorage.carriageReturn == "false" ? false : true);
 document.getElementById("echoOn").checked = (localStorage.echoOn == "false" ? false : true);
 
-
+// ##########################################
 async function sendCommand(cmd) {
     if (!writer) return;
-
-    // Always send with newline (PSUs usually expect it)
     await writer.write(cmd + "\n");
 }
+
 /*
 function startPolling() {
     setInterval(async () => {
@@ -105,10 +104,11 @@ function startPolling() {
 }
 */
 
+let buffer = "";
+
 async function appendToTerminal(newStuff) {
     serialResultsDiv.innerHTML += newStuff;
 
-    // Keep terminal trimmed
     if (serialResultsDiv.innerHTML.length > 3000) {
         serialResultsDiv.innerHTML =
             serialResultsDiv.innerHTML.slice(serialResultsDiv.innerHTML.length - 3000);
@@ -116,17 +116,12 @@ async function appendToTerminal(newStuff) {
 
     serialResultsDiv.scrollTop = serialResultsDiv.scrollHeight;
 
-    parsePSUData(newStuff); // 👈 ADD THIS
+    handleResponse(newStuff); // ✅ correct parser
 }
 
-let lastCommand = "";
+//let lastCommand = "";
 
-async function sendCommand(cmd) {
-    if (!writer) return;
-    lastCommand = cmd;
-    await writer.write(cmd + "\n");
-}
-
+/*
 function parsePSUData(data) {
     let value = data.trim();
 
@@ -145,6 +140,7 @@ function parsePSUData(data) {
         document.getElementById("ch2_current").textContent = value + " A";
     }
 }
+*/
 
 function setVoltage(ch) {
     let value = prompt(`Set voltage for CH${ch}:`);
@@ -154,13 +150,12 @@ function setVoltage(ch) {
         sendCommand(`V${ch} ${num.toFixed(3)}`);
     }
 }
-
 function setCurrent(ch) {
     let value = prompt(`Set current for CH${ch}:`);
     let num = parseFloat(value);
 
     if (!isNaN(num)) {
-        sendCommand(`V${ch} ${num.toFixed(3)}`);
+        sendCommand(`I${ch} ${num.toFixed(3)}`);
     }
 }
 
@@ -175,16 +170,23 @@ function toggleOutput(ch, state) {
     if (target) target.style.opacity = "1";
 }
 
+let buffer = "";
+
 function handleResponse(data) {
-    if (!data) return;
+    buffer += data;
 
-    data = data.trim();
+    let lines = buffer.split(/\r?\n/);
+    buffer = lines.pop(); // keep incomplete line
 
-    if (data.endsWith("V")) {
-        document.getElementById("ch1_voltage").textContent = data;
-    } else if (data.endsWith("A")) {
-        document.getElementById("ch1_current").textContent = data;
-    }
+    lines.forEach(line => {
+        line = line.trim();
+
+        if (line.endsWith("V")) {
+            document.getElementById("ch1_voltage").textContent = line;
+        } else if (line.endsWith("A")) {
+            document.getElementById("ch1_current").textContent = line;
+        }
+    });
 }
 
 function startPollingCH1() {
