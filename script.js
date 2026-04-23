@@ -16,7 +16,7 @@ async function connectSerial() {
         writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
         writer = textEncoder.writable.getWriter();
         await listenToPort();
-        startPolling();
+        startPollingCH1();
     } catch (e){
         alert("Serial Connection Failed" + e);
     }
@@ -92,7 +92,7 @@ async function sendCommand(cmd) {
     // Always send with newline (PSUs usually expect it)
     await writer.write(cmd + "\n");
 }
-
+/*
 function startPolling() {
     setInterval(async () => {
         if (!writer) return;
@@ -103,6 +103,7 @@ function startPolling() {
         await sendCommand("I2O?");
     }, 1000); // every 1 second
 }
+*/
 
 async function appendToTerminal(newStuff) {
     serialResultsDiv.innerHTML += newStuff;
@@ -172,4 +173,24 @@ function toggleOutput(ch, state) {
 
     const target = document.querySelector(`.channel:nth-child(${ch}) .power.${state ? "on" : "off"}`);
     if (target) target.style.opacity = "1";
+}
+
+function handleResponse(data) {
+    if (!data) return;
+
+    data = data.trim();
+
+    if (data.endsWith("V")) {
+        document.getElementById("ch1_voltage").textContent = data;
+    } else if (data.endsWith("A")) {
+        document.getElementById("ch1_current").textContent = data;
+    }
+}
+
+function startPollingCH1() {
+    setInterval(async () => {
+        await sendCommand("V1O?");
+        await new Promise(r => setTimeout(r, 100)); // small gap
+        await sendCommand("I1O?");
+    }, 1000);
 }
