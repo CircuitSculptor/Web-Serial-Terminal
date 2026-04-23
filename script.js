@@ -165,4 +165,11 @@ function setCurrent(ch) {
 
 function toggleOutput(ch, state) {
     sendCommand(`OP${ch} ${state ? 1 : 0}`);
+
+    // visual feedback (optional)
+    const buttons = document.querySelectorAll(`.channel:nth-child(${ch}) .power`);
+    buttons.forEach(btn => btn.style.opacity = "0.5");
+
+    const target = document.querySelector(`.channel:nth-child(${ch}) .power.${state ? "on" : "off"}`);
+    if (target) target.style.opacity = "1";
 }
