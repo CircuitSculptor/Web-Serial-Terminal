@@ -116,3 +116,38 @@ input[type=text] {
     font-size: 32px;
     font-weight: bold;
 }
+
+
+
+/* Row layout: value + button side-by-side */
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+/* Make readout take most space */
+.row .readout {
+    flex: 1;
+}
+
+/* Big power buttons */
+.power {
+    width: 80px;
+    height: 60px;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid rgb(60, 255, 1);
+    cursor: pointer;
+}
+
+/* ON = green-ish */
+.power.on {
+    background-color: rgb(0, 100, 0);
+}
+
+/* OFF = red-ish */
+.power.off {
+    background-color: rgb(100, 0, 0);
+}
