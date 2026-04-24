@@ -97,12 +97,18 @@ input[type=text] {
     gap: 15px;
 }
 
-/* Individual boxes */
+/* Individual boxes 
 .readout {
     border: 2px solid rgb(60, 255, 1);
     padding: 10px 20px;
     text-align: center;
     min-width: 140px;
+}
+*/
+.readout {
+    border: 2px solid lime;
+    padding: 10px;
+    text-align: center;
 }
 
 /* Label */
@@ -119,13 +125,21 @@ input[type=text] {
 
 
 
-/* Row layout: value + button side-by-side */
+/* Row layout: value + button side-by-side 
 .row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 15px;
 }
+*/
+.row {
+    display: grid;
+    grid-template-columns: 1fr 120px 150px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
 
 /* Make readout take most space */
 .row .readout {
@@ -163,4 +177,20 @@ input[type=text] {
     width: 90px;
     text-align: center;
     font-size: 14px;
+}
+
+.power-group {
+    display: flex;
+    justify-content: center;
+}
+
+.set-group {
+    display: flex;
+    gap: 5px;
+    justify-content: flex-end;
+}
+
+.set-group input {
+    width: 80px;
+    text-align: center;
 }
