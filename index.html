@@ -95,9 +95,15 @@ Baud:
                     <button onclick="applyVoltage(1)">SET</button>
                 </div>
                 -->
-                <div class="readout">
-                    <div class="label">Voltage Set</div>
-                    <div id="ch1_voltage_set">0.000 V</div>
+                <!-- RIGHT: Set Group -->
+                <div class="set-group">
+                    <div class="set-label">Voltage Set</div>
+                    <div style="display: flex; align-items: baseline;">
+                        <input id="ch1_set_voltage" placeholder="0.000">
+                        <span style="font-size: 32px; font-weight: bold;">V</span>
+                    </div>
+                    <!-- Hidden or small SET button if you want to keep Enter key functionality -->
+                    <button onclick="applyVoltage(1)" style="display:none;">SET</button>
                 </div>
             </div>
             <div class="row">
