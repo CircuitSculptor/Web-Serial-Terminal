@@ -74,9 +74,9 @@ Baud:
             <div class="power-group">
                 <button class="power on" onclick="toggleOutput(1, true)">ON</button>
             </div>
-            
+            <br>
             <div class="channel-title">CHANNEL 1</div>
-    
+            <br>
             <div class="power-group">
                 <button class="power off" onclick="toggleOutput(1, false)">OFF</button>
             </div>
@@ -87,10 +87,13 @@ Baud:
                     <div class="label">Voltage</div>
                     <div id="ch1_voltage">0.000 V</div>
                 </div>
+                <br>
+                <!--
                 <div class="set-group">
                     <input id="ch1_set_voltage" placeholder="0.000">
                     <button onclick="applyVoltage(1)">SET</button>
                 </div>
+                -->
                 <div class="readout">
                     <div class="label">Voltage Set</div>
                     <div id="ch1_voltage_set">0.000 V</div>
@@ -101,10 +104,13 @@ Baud:
                     <div class="label">Current</div>
                     <div id="ch1_current">0.000 A</div>
                 </div>  
+                <br>
+                <!--
                 <div class="set-group">
                     <input id="ch1_set_current" placeholder="0.000">
                     <button onclick="applyCurrent(1)">SET</button>
                 </div>
+                -->
                 <div class="readout">
                     <div class="label">Current Set</div>
                     <div id="ch1_current_set">0.000 A</div>
