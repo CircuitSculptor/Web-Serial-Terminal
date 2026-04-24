@@ -74,18 +74,51 @@ async function listenToPort() {
 
 // ================== TERMINAL + PARSER ==================
 function appendToTerminal(newStuff) {
-    serialResultsDiv.innerHTML += newStuff;
+    // Only update terminal if it exists
+    if (serialResultsDiv) {
+        serialResultsDiv.innerHTML += newStuff;
 
-    if (serialResultsDiv.innerHTML.length > 3000) {
-        serialResultsDiv.innerHTML =
-            serialResultsDiv.innerHTML.slice(serialResultsDiv.innerHTML.length - 3000);
+        if (serialResultsDiv.innerHTML.length > 3000) {
+            serialResultsDiv.innerHTML =
+                serialResultsDiv.innerHTML.slice(serialResultsDiv.innerHTML.length - 3000);
+        }
+        serialResultsDiv.scrollTop = serialResultsDiv.scrollHeight;
     }
-
-    serialResultsDiv.scrollTop = serialResultsDiv.scrollHeight;
-
-    handleResponse(newStuff); // 👈 parsing hook
+    // ALWAYS parse data
+    handleResponse(newStuff);
 }
 
+function handleResponse(data) {
+    buffer += data;
+
+    let lines = buffer.split(/\r?\n/);
+    buffer = lines.pop();
+
+    lines.forEach(line => {
+        line = line.trim();
+
+        if (line.endsWith("V")) {
+            let val = parseFloat(line.replace("V", ""));
+
+            // clamp near-zero or negative
+            if (val < 0.02) val = 0;
+
+            document.getElementById("ch1_voltage").textContent =
+                val.toFixed(3) + " V";
+        } 
+        else if (line.endsWith("A")) {
+            let val = parseFloat(line.replace("A", ""));
+
+            // clamp near-zero or negative
+            if (val < 0.01) val = 0;
+
+            document.getElementById("ch1_current").textContent =
+                val.toFixed(3) + " A";
+        }
+    });
+}
+
+/*
 function handleResponse(data) {
     buffer += data;
 
@@ -103,6 +136,7 @@ function handleResponse(data) {
         }
     });
 }
+*/
 
 // ================== POLLING ==================
 function startPollingCH1() {
