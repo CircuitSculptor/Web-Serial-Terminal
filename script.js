@@ -15,7 +15,7 @@ async function connectSerial() {
         textEncoder = new TextEncoderStream();
         writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
         writer = textEncoder.writable.getWriter();
-        await listenToPort();
+        listenToPort();
         startPollingCH1();
     } catch (e){
         alert("Serial Connection Failed" + e);
