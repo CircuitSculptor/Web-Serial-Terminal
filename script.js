@@ -113,7 +113,7 @@ function handleResponse(data) {
             if (val < 0.01) val = 0;
 
             document.getElementById("ch1_current").textContent =
-                val.toFixed(3) + " A";
+                val.toFixed(4) + " A";
         }
     });
 }
