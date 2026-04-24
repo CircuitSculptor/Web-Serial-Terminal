@@ -74,32 +74,48 @@ Baud:
     
         <div class="readouts">
     
-            <!-- Voltage -->
+            <!-- Voltage Row -->
             <div class="row">
+    
+                <!-- LEFT: Live -->
                 <div class="readout">
                     <div class="label">Voltage</div>
                     <div id="ch1_voltage">12.340 V</div>
-    
-                    <div class="set-row">
-                        <input class="set-input" id="ch1_set_voltage" placeholder="0.000">
-                        <button onclick="applyVoltage(1)">SET</button>
-                    </div>
                 </div>
-                <button class="power on" onclick="toggleOutput(1, true)">ON</button>
+    
+                <!-- MIDDLE: Power -->
+                <div class="power-group">
+                    <button class="power on" onclick="toggleOutput(1, true)">ON</button>
+                </div>
+    
+                <!-- RIGHT: Set -->
+                <div class="set-group">
+                    <input id="ch1_set_voltage" placeholder="0.000">
+                    <button onclick="applyVoltage(1)">SET</button>
+                </div>
+    
             </div>
     
-            <!-- Current -->
+            <!-- Current Row -->
             <div class="row">
+    
+                <!-- LEFT -->
                 <div class="readout">
                     <div class="label">Current</div>
                     <div id="ch1_current">0.500 A</div>
-    
-                    <div class="set-row">
-                        <input class="set-input" id="ch1_set_current" placeholder="0.000">
-                        <button onclick="applyCurrent(1)">SET</button>
-                    </div>
                 </div>
-                <button class="power off" onclick="toggleOutput(1, false)">OFF</button>
+    
+                <!-- MIDDLE -->
+                <div class="power-group">
+                    <button class="power off" onclick="toggleOutput(1, false)">OFF</button>
+                </div>
+    
+                <!-- RIGHT -->
+                <div class="set-group">
+                    <input id="ch1_set_current" placeholder="0.000">
+                    <button onclick="applyCurrent(1)">SET</button>
+                </div>
+    
             </div>
     
         </div>
