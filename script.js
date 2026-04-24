@@ -308,12 +308,24 @@ function applyCurrent(ch) {
     sendCommand(`I${ch} ${val.toFixed(4)}`);
 }
 
-// Add this to the bottom of script.js
-document.addEventListener("keydown", function(event) {
+// Listen for the "Enter" key globally
+document.addEventListener("keydown", function (event) {
+    // Check if the pressed key is "Enter"
     if (event.key === "Enter") {
         const activeEl = document.activeElement;
-        if (activeEl.id === "ch1_set_voltage") applyVoltage(1);
-        if (activeEl.id === "ch1_set_current") applyCurrent(1);
+
+        // If the cursor is in a Voltage input (e.g., ch1_set_voltage)
+        if (activeEl.id.includes("_set_voltage")) {
+            // Extract the channel number from the ID (e.g., "1" from "ch1_set_voltage")
+            const ch = activeEl.id.match(/\d+/)[0];
+            applyVoltage(ch);
+        } 
+        
+        // If the cursor is in a Current input (e.g., ch1_set_current)
+        else if (activeEl.id.includes("_set_current")) {
+            const ch = activeEl.id.match(/\d+/)[0];
+            applyCurrent(ch);
+        }
     }
 });
 
