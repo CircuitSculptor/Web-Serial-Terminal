@@ -32,9 +32,23 @@ async function connectSerial() {
 }
 
 // ================== SEND ==================
+/*
 async function sendCommand(cmd) {
     if (!writer) return;
     await writer.write(cmd + "\n");
+}
+*/
+async function sendCommand(command) {
+    if (writer && port.writable) {
+        // Most PSUs require a Carriage Return (\r) or Newline (\n) to execute a command
+        const terminator = "\r\n"; 
+        await writer.write(command + terminator);
+        
+        // Optional: Echo to your terminal div so you see what was sent
+        appendToTerminal("> " + command + "\n");
+    } else {
+        alert("Serial port not connected! Please click Connect first.");
+    }
 }
 
 async function sendSerialLine() {
@@ -254,6 +268,7 @@ function applyCurrent(ch) {
     sendCommand(`I${ch} ${val.toFixed(3)}`);
     //input.value = "";
 }
+
 /*
 document.getElementById("ch1_set_voltage").addEventListener("keydown", e => {
     if (e.key === "Enter") applyVoltage(1);
