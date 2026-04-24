@@ -220,35 +220,46 @@ document.getElementById("echoOn").checked =
 
 // ====================== SET VOLTAGE AND CURRENT =========
 function applyVoltage(ch) {
-    let input = document.getElementById(`ch${ch}_set_voltage`);
+    const input = document.getElementById(`ch${ch}_set_voltage`);
     let val = parseFloat(input.value);
 
     if (isNaN(val)) {
-        alert("Invalid voltage");
+        alert("Enter a valid voltage");
         return;
     }
 
     if (val < 0 || val > 30) {
-        alert("Voltage must be 0.000 – 30.000 V");
+        alert("Voltage must be 0–30V");
         return;
     }
 
     sendCommand(`V${ch} ${val.toFixed(3)}`);
+    //input.value = ""; // clear after send
 }
 
 function applyCurrent(ch) {
-    let input = document.getElementById(`ch${ch}_set_current`);
+    const input = document.getElementById(`ch${ch}_set_current`);
     let val = parseFloat(input.value);
 
     if (isNaN(val)) {
-        alert("Invalid current");
+        alert("Enter a valid current");
         return;
     }
 
     if (val < 0 || val > 3) {
-        alert("Current must be 0.000 – 3.000 A");
+        alert("Current must be 0–3A");
         return;
     }
 
     sendCommand(`I${ch} ${val.toFixed(3)}`);
+    //input.value = "";
 }
+/*
+document.getElementById("ch1_set_voltage").addEventListener("keydown", e => {
+    if (e.key === "Enter") applyVoltage(1);
+});
+
+document.getElementById("ch1_set_current").addEventListener("keydown", e => {
+    if (e.key === "Enter") applyCurrent(1);
+});
+*/
