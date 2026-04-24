@@ -35,34 +35,34 @@ async function connectSerial() {
 async function disconnectSerial() {
     if (port) {
         try {
-            // 1. Cancel the reader and writer streams
-            if (reader) {
-                await reader.cancel();
-                await readableStreamClosed.catch(() => { /* Ignore errors */ });
-                reader = null;
+            // Stop the polling interval if it's running (e.g., for CH1/CH2)
+            if (window.pollingInterval) {
+                clearInterval(window.pollingInterval);
             }
 
+            // 1. Close the Writer
             if (writer) {
                 await writer.close();
-                await writableStreamClosed;
                 writer = null;
             }
 
-            // 2. Close the actual port
+            // 2. Cancel the Reader
+            if (reader) {
+                await reader.cancel();
+                reader = null;
+            }
+
+            // 3. Close the Port
             await port.close();
             port = null;
 
-            appendToTerminal("\n>>> Disconnected from Serial Port <<<\n");
-            console.log("Serial port closed.");
-            
-            // Optional: Reset UI elements
-            document.getElementById("connectBtn").disabled = false;
-        } catch (error) {
-            console.error("Error while disconnecting:", error);
-            appendToTerminal("\nError during disconnect: " + error.message + "\n");
+            appendToTerminal("\n[PORT CLOSED]\n");
+        } catch (err) {
+            console.error("Disconnect error:", err);
+            appendToTerminal("\n[ERROR DURING DISCONNECT]\n");
         }
     } else {
-        alert("No active connection to disconnect.");
+        appendToTerminal("\n[NO PORT CONNECTED]\n");
     }
 }
 
