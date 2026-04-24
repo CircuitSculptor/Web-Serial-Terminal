@@ -217,3 +217,38 @@ document.getElementById("carriageReturn").checked =
 
 document.getElementById("echoOn").checked =
     (localStorage.echoOn == "false" ? false : true);
+
+// ====================== SET VOLTAGE AND CURRENT =========
+function applyVoltage(ch) {
+    let input = document.getElementById(`ch${ch}_set_voltage`);
+    let val = parseFloat(input.value);
+
+    if (isNaN(val)) {
+        alert("Invalid voltage");
+        return;
+    }
+
+    if (val < 0 || val > 30) {
+        alert("Voltage must be 0.000 – 30.000 V");
+        return;
+    }
+
+    sendCommand(`V${ch} ${val.toFixed(3)}`);
+}
+
+function applyCurrent(ch) {
+    let input = document.getElementById(`ch${ch}_set_current`);
+    let val = parseFloat(input.value);
+
+    if (isNaN(val)) {
+        alert("Invalid current");
+        return;
+    }
+
+    if (val < 0 || val > 3) {
+        alert("Current must be 0.000 – 3.000 A");
+        return;
+    }
+
+    sendCommand(`I${ch} ${val.toFixed(3)}`);
+}
