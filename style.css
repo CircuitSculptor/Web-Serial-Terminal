@@ -151,3 +151,16 @@ input[type=text] {
 .power.off {
     background-color: rgb(100, 0, 0);
 }
+
+
+.set-row {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.set-input {
+    width: 90px;
+    text-align: center;
+    font-size: 14px;
+}
