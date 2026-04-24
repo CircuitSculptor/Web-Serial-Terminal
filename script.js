@@ -233,6 +233,7 @@ document.getElementById("echoOn").checked =
     (localStorage.echoOn == "false" ? false : true);
 
 // ====================== SET VOLTAGE AND CURRENT =========
+/*
 function applyVoltage(ch) {
     const input = document.getElementById(`ch${ch}_set_voltage`);
     let val = parseFloat(input.value);
@@ -268,6 +269,53 @@ function applyCurrent(ch) {
     sendCommand(`I${ch} ${val.toFixed(3)}`);
     //input.value = "";
 }
+*/
+// ====================== SET VOLTAGE AND CURRENT V2 =========
+function applyVoltage(ch) {
+    const input = document.getElementById(`ch${ch}_set_voltage`);
+    let val = parseFloat(input.value);
+
+    if (isNaN(val)) {
+        alert("Enter a numeric voltage");
+        return;
+    }
+
+    // Standard safety check
+    if (val < 0 || val > 30) {
+        alert("Voltage out of range");
+        return;
+    }
+
+    // Sends command: V1 12.500
+    sendCommand(`V${ch} ${val.toFixed(3)}`);
+}
+
+function applyCurrent(ch) {
+    const input = document.getElementById(`ch${ch}_set_current`);
+    let val = parseFloat(input.value);
+
+    if (isNaN(val)) {
+        alert("Enter a numeric current");
+        return;
+    }
+
+    if (val < 0 || val > 3) {
+        alert("Current out of range");
+        return;
+    }
+
+    // Sends command: I1 0.500
+    sendCommand(`I${ch} ${val.toFixed(4)}`);
+}
+
+// Add this to the bottom of script.js
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        const activeEl = document.activeElement;
+        if (activeEl.id === "ch1_set_voltage") applyVoltage(1);
+        if (activeEl.id === "ch1_set_current") applyCurrent(1);
+    }
+});
 
 /*
 document.getElementById("ch1_set_voltage").addEventListener("keydown", e => {
