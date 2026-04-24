@@ -199,7 +199,8 @@ text-align: center;
 
 /* This targets the input fields inside the set-group */
 .set-group input {
-    width: 100%;            /* Fill the container */
+    /*width: 100%;            /* Fill the container */
+    width: 80px;
     background: transparent; /* Remove the grey background */
     border: none;           /* Remove default input border */
     color: rgb(60, 255, 1); /* Lime green text */
