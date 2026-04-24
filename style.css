@@ -10,6 +10,18 @@ datalist {
 background-color: rgb(85, 85, 85);
 }
 
+#disconnectBtn {
+    border: 2px solid rgb(60, 255, 1);
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 15px;
+    margin-left: 10px;
+}
+
+#disconnectBtn:hover {
+    background-color: rgb(150, 0, 0); /* Brighter red on hover */
+}
+
 input[type=text] {
 color: rgb(179, 255, 179);
 background-color: rgb(102, 86, 86);
